@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Error {{ error_code }}{% endblock %}
+
+{% block content %}
+<div class="container-modern">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Error Header -->
+            <div class="text-center mb-4">
+                <div class="feature-icon mx-auto mb-3" style="width: 80px; height: 80px; background: #fef2f2; color: #991b1b; font-size: 2rem;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h2 class="fw-bold text-dark">Error {{ error_code }}</h2>
+                <p class="text-muted">{{ error_message }}</p>
+            </div>
+
+            <!-- Error Details Card -->
+            <div class="card-modern">
+                <div class="card-header-modern" style="background: #fef2f2; color: #991b1b; border-bottom: 1px solid #fca5a5;">
+                    <h6 class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Error Details
+                    </h6>
+                </div>
+                <div class="card-body-modern text-center">
+                    <div class="mb-4">
+                        <i class="fas fa-exclamation-circle fa-4x mb-3" style="color: #ef4444;"></i>
+                        <h4>{{ error_message }}</h4>
+                        <p class="text-muted">Something went wrong. Please try again or contact support.</p>
+                    </div>
+                    
+                    <!-- Error Alert -->
+                    <div class="alert-modern alert-danger-modern">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>What happened:</strong> An unexpected error occurred while processing your request. 
+                        This could be due to a temporary issue or invalid input.
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="d-flex flex-column flex-md-row gap-2 justify-content-center">
+                        <a href="{{ url_for('index') }}" class="btn btn-primary-modern btn-modern">
+                            <i class="fas fa-home me-2"></i>Back to Home
+                        </a>
+                        <button onclick="window.history.back()" class="btn btn-secondary-modern btn-modern">
+                            <i class="fas fa-arrow-left me-2"></i>Go Back
+                        </button>
+                        <button onclick="window.location.reload()" class="btn btn-secondary-modern btn-modern">
+                            <i class="fas fa-redo me-2"></i>Try Again
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Card -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-tools me-2"></i>
+                        Troubleshooting Steps
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h6 class="fw-semibold mb-2">Quick Fixes</h6>
+                            <ul class="list-unstyled small text-muted">
+                                <li><span class="status-dot status-info"></span>Refresh the page and try again</li>
+                                <li><span class="status-dot status-warning"></span>Check your file format and size</li>
+                                <li><span class="status-dot status-info"></span>Ensure all required fields are filled</li>
+                                <li><span class="status-dot status-success"></span>Verify your internet connection</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-semibold mb-2">Common Issues</h6>
+                            <ul class="list-unstyled small text-muted">
+                                <li><span class="status-dot status-warning"></span>File too large (max 16MB)</li>
+                                <li><span class="status-dot status-danger"></span>Invalid file format</li>
+                                <li><span class="status-dot status-warning"></span>Missing required files</li>
+                                <li><span class="status-dot status-info"></span>Server temporarily unavailable</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-modern alert-success-modern mt-3">
+                        <i class="fas fa-question-circle me-2"></i>
+                        <strong>Need Help?</strong> If the problem persists, please contact the system administrator with the error code: <strong>{{ error_code }}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-headset me-2"></i>
+                        Support Information
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <div class="text-center">
+                        <p class="text-muted mb-3">If you continue to experience issues, please provide the following information:</p>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <strong>Error Code</strong><br>
+                                    <code>{{ error_code }}</code>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <strong>Time</strong><br>
+                                    <span id="error-time"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <strong>Action</strong><br>
+                                    <span>{{ request.endpoint or 'Unknown' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Set current time
+document.addEventListener('DOMContentLoaded', function() {
+    const timeElement = document.getElementById('error-time');
+    if (timeElement) {
+        const now = new Date();
+        timeElement.textContent = now.toLocaleString();
+    }
+});
+</script>
+{% endblock %}

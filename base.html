@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}OpenPR Publishing System{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        /* Improved navigation */
+        .navbar {
+            background: #ffffff !important;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1.25rem 0; /* Increased padding */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: #1a1a1a !important;
+            margin-right: 2rem; /* Add space after brand */
+        }
+
+        .navbar-nav {
+            gap: 1.5rem; /* Add gap between nav items */
+        }
+
+        .nav-link {
+            color: #6b7280 !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important; /* Better padding */
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: #1a1a1a !important;
+            background-color: #f3f4f6;
+        }
+
+        /* Container for navbar */
+        .navbar .container-modern {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Modern cards */
+        .card-modern {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            overflow: hidden;
+        }
+
+        .card-header-modern {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            font-weight: 600;
+        }
+
+        .card-body-modern {
+            padding: 1.5rem;
+        }
+
+        /* Clean buttons */
+        .btn-modern {
+            border-radius: 8px;
+            font-weight: 500;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary-modern {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary-modern:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary-modern {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-secondary-modern:hover {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+
+        .btn-success-modern {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success-modern:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-info-modern {
+            background: #06b6d4;
+            color: white;
+        }
+
+        .btn-info-modern:hover {
+            background: #0891b2;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+        }
+
+        /* Form elements */
+        .form-control-modern {
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 0.75rem;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .form-control-modern:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+
+        .form-label-modern {
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        /* Flash messages */
+        .alert-modern {
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .alert-success-modern {
+            background: #f0fdf4;
+            color: #166534;
+            border-left: 4px solid #22c55e;
+        }
+
+        .alert-warning-modern {
+            background: #fffbeb;
+            color: #92400e;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .alert-danger-modern {
+            background: #fef2f2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        /* Step indicators */
+        .step-indicator {
+            display: inline-block;
+            background: #f3f4f6;
+            color: #6b7280;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .text-purple {
+            color: #8b5cf6 !important;
+        }
+
+        /* Icons */
+        .icon-modern {
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Clean containers */
+        .container-modern {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .main-content {
+            min-height: calc(100vh - 80px);
+            padding: 2rem 0;
+        }
+
+        /* Feature grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: #f3f4f6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: #6b7280;
+            font-size: 1.5rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 0;
+            }
+            
+            .navbar-brand {
+                margin-right: 1rem;
+                font-size: 1.1rem;
+            }
+            
+            .navbar-nav {
+                gap: 0.5rem;
+                margin-top: 0.5rem;
+            }
+            
+            .nav-link {
+                padding: 0.5rem 0.75rem !important;
+                font-size: 0.9rem;
+            }
+            
+            .main-content {
+                padding: 1rem 0;
+            }
+            
+            .card-body-modern {
+                padding: 1rem;
+            }
+            
+            .btn-modern {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Clean progress bars */
+        .progress-modern {
+            height: 8px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-modern {
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        /* Status indicators */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .status-success { background: #22c55e; }
+        .status-warning { background: #f59e0b; }
+        .status-danger { background: #ef4444; }
+        .status-info { background: #3b82f6; }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Clean Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-modern">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i class="fas fa-chart-line me-2"></i>OpenPR Publishing
+            </a>
+            
+            <!-- Mobile toggle button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="border: none; padding: 0.5rem;">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Navigation items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                    <a class="nav-link" href="{{ url_for('rob') }}">ROB Daily</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="container-modern">
+                    {% for message in messages %}
+                        <div class="alert-modern alert-warning-modern">
+                            <i class="fas fa-info-circle me-2"></i>{{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Auto-hide flash messages -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.alert-modern');
+            flashMessages.forEach(function(message) {
+                setTimeout(function() {
+                    message.style.opacity = '0';
+                    message.style.transform = 'translateY(-10px)';
+                    setTimeout(function() {
+                        message.remove();
+                    }, 300);
+                }, 5000);
+            });
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

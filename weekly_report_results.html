@@ -1,0 +1,63 @@
+<!-- Add this section after your trending keywords section in weekly_report_results.html -->
+
+<!-- Backend Data Processing Results Section -->
+{% if trending_data and trending_data|length > 0 %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fas fa-database me-2"></i>Backend Data Processing
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info mb-3">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Qualified RIDs:</strong> {{ trending_data|map(attribute='RID')|list|join(', ') }}
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h3 class="text-primary">{{ trending_data|length }}</h3>
+                                <p class="mb-0">Qualified RIDs for Backend Processing</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h3 class="text-success">✓</h3>
+                                <p class="mb-0">Backend File Processed & Cleaned</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <h6>Processing Steps Completed:</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Backend file cleaned and processed</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Header row automatically detected</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Unnecessary columns removed</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Columns renamed and reordered</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Data extracted for qualified RIDs only</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Separate Excel file generated</li>
+                    </ul>
+                </div>
+                
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-download me-2"></i>
+                    <strong>Output Files:</strong>
+                    <ul class="mb-0 mt-2">
+                        <li><strong>Main Report:</strong> Complete analysis with all sheets</li>
+                        <li><strong>Backend Data:</strong> QualifiedRIDs_BackendData.xlsx (cleaned data for trending RIDs)</li>
+                        <li><strong>RIDs List:</strong> Simple text file with qualified RID numbers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

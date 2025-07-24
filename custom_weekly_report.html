@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Weekly RID Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .container-modern {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .card-modern {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header-modern {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            font-weight: 600;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .card-body-modern {
+            padding: 1.5rem;
+        }
+
+        .btn-modern {
+            border-radius: 8px;
+            font-weight: 500;
+            border: none;
+            padding: 0.75rem 2rem;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary-modern {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary-modern:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary-modern {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-secondary-modern:hover {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+
+        .form-control-modern {
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 0.75rem;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .form-control-modern:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+
+        .form-label-modern {
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .alert-modern {
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .alert-success-modern {
+            background: #f0fdf4;
+            color: #166534;
+            border-left: 4px solid #22c55e;
+        }
+
+        .alert-danger-modern {
+            background: #fef2f2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .file-upload-area:hover {
+            border-color: #3b82f6;
+            background: #f8faff;
+        }
+
+        .competition-select {
+            background: #f8faff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 0.75rem;
+        }
+
+        .priority-info {
+            background: #f8faff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            margin-top: 0.75rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        .icon-success { background: #dcfce7; color: #166534; }
+        .icon-info { background: #dbeafe; color: #1e40af; }
+        .icon-warning { background: #fef3c7; color: #92400e; }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .checkbox-modern {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+
+        .checkbox-modern input {
+            margin-right: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-modern">
+        <!-- Header -->
+        <div class="header-section">
+            <h1 class="fw-bold text-dark mb-2">Custom Weekly RID Analysis</h1>
+            <p class="text-muted">Advanced keyword matching and trend analysis workflow</p>
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert-modern {{ 'alert-success-modern' if '✅' in message else 'alert-danger-modern' }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Main Form -->
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line me-2"></i>
+                    RID Analysis Configuration
+                </h5>
+            </div>
+            <div class="card-body-modern">
+                <form method="POST" enctype="multipart/form-data">
+                    <!-- Filter Parameters -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="min_search_volume" class="form-label-modern">
+                                Minimum Search Volume
+                            </label>
+                            <input type="number" class="form-control form-control-modern" 
+                                   id="min_search_volume" name="min_search_volume" value="5000" required>
+                            <div class="form-text small text-muted">
+                                Only include RIDs above this search threshold
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="competition_level" class="form-label-modern">
+                                Competition Priority Filter
+                            </label>
+                            <select class="form-control form-control-modern competition-select" 
+                                    id="competition_level" name="competition_level" required>
+                                <option value="Low">🟢 Low Competition Only</option>
+                                <option value="Medium">🟡 Low + Medium Competition</option>
+                                <option value="High" selected>🔴 Low + Medium + High Competition</option>
+                                <option value="All">⚪ All Competition Levels</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="priority-info">
+                        <strong>Smart Priority System:</strong><br>
+                        • <strong>🟢 Low Only:</strong> Gets only Low competition keywords<br>
+                        • <strong>🟡 Low + Medium:</strong> Gets Low first, then Medium (Recommended)<br>
+                        • <strong>🔴 All Levels:</strong> Prioritized Low → Medium → High<br>
+                        • <strong>⚪ No Filter:</strong> Everything included
+                    </div>
+
+                    <!-- Google Trends Option -->
+                    <div class="checkbox-modern mt-3">
+                        <input class="form-check-input" type="checkbox" id="analyze_trends" name="analyze_trends">
+                        <label class="form-check-label" for="analyze_trends">
+                            <i class="fab fa-google me-2"></i>
+                            <strong>Enable Google Trends Analysis</strong>
+                            <div class="small text-muted">Additional filtering for trending keywords</div>
+                        </label>
+                    </div>
+
+                    <!-- File Upload Section - Only Ranking Sheet (Full Width) -->
+                    <div class="mt-4">
+                        <h6 class="text-primary mb-3">File Upload</h6>
+                        
+                        <div class="file-upload-area">
+                            <i class="fas fa-file-excel fa-2x text-success mb-2"></i>
+                            <label for="ranking_file" class="form-label-modern d-block">
+                                Ranking Sheet
+                            </label>
+                            <input type="file" class="form-control form-control-modern" 
+                                   id="ranking_file" name="ranking_file" accept=".xlsx,.xls,.csv" required>
+                            <small class="text-muted">Excel or CSV with RID, Keywords, Search Volume</small>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary-modern btn-modern">
+                            <i class="fas fa-magic me-2"></i>
+                            Start Analysis
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Process Information -->
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <h6 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Process Overview
+                </h6>
+            </div>
+            <div class="card-body-modern">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <h6 class="fw-semibold mb-3">Analysis Steps</h6>
+                        <ul class="feature-list">
+                            <li>
+                                <span class="feature-icon icon-info">1</span>
+                                Apply search volume filter
+                            </li>
+                            <li>
+                                <span class="feature-icon icon-warning">2</span>
+                                Apply competition priority filter
+                            </li>
+                            <li>
+                                <span class="feature-icon icon-info">3</span>
+                                Run Google Trends analysis (optional)
+                            </li>
+                            <li>
+                                <span class="feature-icon icon-success">4</span>
+                                Generate qualified RID report
+                            </li>
+                            <li>
+                                <span class="feature-icon icon-success">5</span>
+                                Export results for review
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-semibold mb-3">Best Practices</h6>
+                        <ul class="feature-list">
+                            <li>
+                                <span class="feature-icon icon-success">✓</span>
+                                Use "Low + Medium" for quality keywords
+                            </li>
+                            <li>
+                                <span class="feature-icon icon-success">✓</span>
+                                Enable Trends for trending analysis
+                            </li>
+                            <li>
+                                <span class="feature-icon icon-success">✓</span>
+                                Higher volumes = better opportunities
+                            </li>
+                            <li>
+                                <span class="feature-icon icon-success">✓</span>
+                                Results are automatically prioritized
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Custom Home -->
+        <div class="text-center">
+            <a href="/custom_index.html" class="btn btn-secondary-modern btn-modern">
+                <i class="fas fa-arrow-left me-2"></i>
+                Back to Custom Home
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

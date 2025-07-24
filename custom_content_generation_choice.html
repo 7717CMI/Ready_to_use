@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}Custom Content Generation Choice{% endblock %}
+
+{% block content %}
+<div class="container-modern">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <h2 class="fw-bold text-dark">Custom Content Generation Choice</h2>
+        <p class="text-muted">Choose your content generation method</p>
+    </div>
+
+    <!-- Choice Cards -->
+    <div class="card-modern">
+        <div class="card-header-modern">
+            <h6 class="mb-0">
+                <i class="fas fa-cogs me-2"></i>
+                Content Generation Method Selection
+            </h6>
+        </div>
+        <div class="card-body-modern">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="choice-card text-center">
+                        <div class="choice-icon ai-icon mb-3">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h5 class="fw-semibold mb-3">AI Content</h5>
+                        <p class="text-muted mb-4">AI-powered content generation using OpenAI</p>
+                        <button class="btn btn-ai-modern btn-modern" onclick="handleAIContentChoice()">
+                            <i class="fas fa-arrow-right me-2"></i>Select AI Content
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="choice-card text-center">
+                        <div class="choice-icon template-icon mb-3">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <h5 class="fw-semibold mb-3">Template Content</h5>
+                        <p class="text-muted mb-4">Template-based content generation</p>
+                        <button class="btn btn-template-modern btn-modern" onclick="handleTemplateContentChoice()">
+                            <i class="fas fa-arrow-right me-2"></i>Select Template Content
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Information Card -->
+    <div class="card-modern mt-4">
+        <div class="card-header-modern">
+            <h6 class="mb-0">
+                <i class="fas fa-info-circle me-2"></i>
+                Content Generation Information
+            </h6>
+        </div>
+        <div class="card-body-modern">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h6 class="fw-semibold mb-2">AI Content Generation</h6>
+                    <ul class="list-unstyled small text-muted">
+                        <li><span class="status-dot status-ai"></span>Powered by OpenAI GPT technology</li>
+                        <li><span class="status-dot status-success"></span>Dynamic and unique content creation</li>
+                        <li><span class="status-dot status-warning"></span>Customizable AI prompts and parameters</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-semibold mb-2">Template Content Generation</h6>
+                    <ul class="list-unstyled small text-muted">
+                        <li><span class="status-dot status-template"></span>Pre-designed content templates</li>
+                        <li><span class="status-dot status-success"></span>Consistent formatting and structure</li>
+                        <li><span class="status-dot status-warning"></span>Quick and reliable content generation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-4">
+        <a href="/custom_index.html" class="btn btn-secondary-modern btn-modern">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back to Custom Home
+        </a>
+    </div>
+</div>
+
+<style>
+.choice-card {
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.choice-card:hover {
+    background: #f8faff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.choice-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 1.5rem;
+}
+
+.ai-icon {
+    background: #e0f2fe;
+    color: #0891b2;
+}
+
+.template-icon {
+    background: #fef3e2;
+    color: #ea580c;
+}
+
+.choice-card:hover .ai-icon {
+    background: #0891b2;
+    color: white;
+    transform: scale(1.1);
+}
+
+.choice-card:hover .template-icon {
+    background: #ea580c;
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-ai-modern {
+    background: #0891b2;
+    color: white;
+}
+
+.btn-ai-modern:hover {
+    background: #0e7490;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3);
+}
+
+.btn-template-modern {
+    background: #ea580c;
+    color: white;
+}
+
+.btn-template-modern:hover {
+    background: #c2410c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+}
+
+.status-dot.status-ai {
+    background: #0891b2;
+}
+
+.status-dot.status-template {
+    background: #ea580c;
+}
+
+.choice-card:hover {
+    border-color: #3b82f6;
+}
+</style>
+
+<script>
+function handleAIContentChoice() {
+    console.log('AI Content selected');
+    window.location.href = '/custom_ai_content';
+}
+
+function handleTemplateContentChoice() {
+    console.log('Template Content selected');
+    // Placeholder for Template Content choice handling
+    alert('Template Content selected - functionality to be implemented');
+}
+</script>
+{% endblock %}

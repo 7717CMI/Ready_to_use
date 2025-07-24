@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Automation Triggered{% endblock %}
+
+{% block content %}
+<div class="container-modern">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <div class="feature-icon mx-auto mb-3" style="width: 80px; height: 80px; background: #fef3c7; color: #92400e; font-size: 2rem;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h2 class="fw-bold text-dark">Automation in Progress</h2>
+                <p class="text-muted">Power Automate flow has been triggered successfully</p>
+            </div>
+
+            <!-- Status Card -->
+            <div class="card-modern">
+                <div class="card-header-modern" style="background: #fef3c7; color: #92400e; border-bottom: 1px solid #f3e8a0;">
+                    <h6 class="mb-0">
+                        <i class="fas fa-robot me-2"></i>
+                        Automation Status
+                    </h6>
+                </div>
+                <div class="card-body-modern text-center">
+                    <!-- Loading Animation -->
+                    <div class="mb-4">
+                        <div class="spinner-border mb-3" style="width: 4rem; height: 4rem; color: #f59e0b;" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <h5>Power Automate Flow Triggered</h5>
+                        <p class="text-muted">The automation process has been started successfully</p>
+                    </div>
+                    
+                    <!-- Status Alert -->
+                    <div class="alert-modern alert-warning-modern">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Please wait...</strong> The automation is running in the background.
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div class="progress-modern mb-4">
+                        <div class="progress-bar-modern" style="width: 100%; background: linear-gradient(90deg, #f59e0b, #f97316); animation: progress-pulse 2s ease-in-out infinite;"></div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="d-flex flex-column flex-md-row gap-2 justify-content-center">
+                        <a href="{{ url_for('index') }}" class="btn btn-primary-modern btn-modern">
+                            <i class="fas fa-home me-2"></i>Back to Home
+                        </a>
+                        <a href="{{ url_for('rob') }}" class="btn btn-secondary-modern btn-modern">
+                            <i class="fas fa-file-excel me-2"></i>ROB Processing
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Automation Details -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Automation Workflow
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h6 class="fw-semibold mb-2">Current Process</h6>
+                            <ul class="list-unstyled small text-muted">
+                                <li><span class="status-dot status-success"></span>ROB.xlsx file detected</li>
+                                <li><span class="status-dot status-warning"></span>Power Automate flow triggered</li>
+                                <li><span class="status-dot status-info"></span>Background processing active</li>
+                                <li><span class="status-dot status-info"></span>Monitoring workflow progress</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-semibold mb-2">What's Next</h6>
+                            <ul class="list-unstyled small text-muted">
+                                <li><span class="status-dot status-info"></span>Document generation in progress</li>
+                                <li><span class="status-dot status-info"></span>Files will be created automatically</li>
+                                <li><span class="status-dot status-info"></span>Ready for document processing</li>
+                                <li><span class="status-dot status-success"></span>Workflow will complete automatically</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-modern alert-success-modern mt-3">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <strong>Automation Active:</strong> The Power Automate flow is now running. You can monitor progress or continue with other tasks.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Card -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        Tips & Recommendations
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <span class="status-dot status-info"></span>
+                            Monitor your desktop for Power Automate Desktop notifications
+                        </li>
+                        <li class="mb-2">
+                            <span class="status-dot status-warning"></span>
+                            Avoid interrupting the automation process for best results
+                        </li>
+                        <li class="mb-2">
+                            <span class="status-dot status-success"></span>
+                            Files will be generated automatically in the specified folders
+                        </li>
+                        <li class="mb-0">
+                            <span class="status-dot status-info"></span>
+                            You'll be notified when the automation completes
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes progress-pulse {
+    0%, 100% { opacity: 0.7; transform: scaleX(1); }
+    50% { opacity: 1; transform: scaleX(1.02); }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Processing Status{% endblock %}
+
+{% block content %}
+<div class="container-modern">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <div class="feature-icon mx-auto mb-3" style="width: 80px; height: 80px; background: #dbeafe; color: #1e40af; font-size: 2rem;">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h2 class="fw-bold text-dark">Document Processing</h2>
+                <p class="text-muted">Your documents are being processed in the background</p>
+            </div>
+
+            <!-- Status Card -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-tasks me-2"></i>
+                        Processing Status
+                    </h6>
+                </div>
+                <div class="card-body-modern text-center">
+                    <!-- Loading Animation -->
+                    <div class="mb-4">
+                        <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="visually-hidden">Processing...</span>
+                        </div>
+                        <h5>Processing Documents</h5>
+                        <p class="text-muted">The document processing has started in the background</p>
+                    </div>
+                    
+                    <!-- Status Alert -->
+                    <div class="alert-modern alert-success-modern">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Background Processing:</strong> The document processing is running in a separate thread. 
+                        Monitor the console output for progress updates.
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div class="progress-modern mb-4">
+                        <div class="progress-bar-modern" style="width: 100%; animation: progress-animation 2s ease-in-out infinite;"></div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="d-flex flex-column flex-md-row gap-2 justify-content-center">
+                        <a href="{{ url_for('index') }}" class="btn btn-primary-modern btn-modern">
+                            <i class="fas fa-home me-2"></i>Back to Home
+                        </a>
+                        <a href="{{ url_for('document_processing') }}" class="btn btn-secondary-modern btn-modern">
+                            <i class="fas fa-cog me-2"></i>Process Settings
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Process Log -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-terminal me-2"></i>
+                        Process Log
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <div class="alert-modern alert-warning-modern">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Monitor Console:</strong> Check your console/terminal where Flask is running for real-time processing updates.
+                    </div>
+                    
+                    <!-- Log Display -->
+                    <div style="background: #1a1a1a; color: #00ff00; border-radius: 8px; padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">
+                        <div><i class="fas fa-play" style="color: #22c55e;"></i> Processing started...</div>
+                        <div><i class="fas fa-search" style="color: #06b6d4;"></i> Reading ROB.xlsx for market names...</div>
+                        <div><i class="fas fa-file-alt" style="color: #f59e0b;"></i> Converting .doc files to .docx...</div>
+                        <div><i class="fas fa-upload" style="color: #3b82f6;"></i> Publishing to OpenPR.com...</div>
+                        <div><i class="fas fa-clock" style="color: #6b7280;"></i> Please wait for completion...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Process Information -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        What's Happening
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <span class="status-dot status-info"></span>
+                            Reading ROB.xlsx file for market information
+                        </li>
+                        <li class="mb-2">
+                            <span class="status-dot status-warning"></span>
+                            Converting .doc files to .docx format
+                        </li>
+                        <li class="mb-2">
+                            <span class="status-dot status-success"></span>
+                            Extracting press release content from documents
+                        </li>
+                        <li class="mb-2">
+                            <span class="status-dot status-success"></span>
+                            Automatically publishing to OpenPR platform
+                        </li>
+                        <li class="mb-0">
+                            <span class="status-dot status-info"></span>
+                            Processing will complete automatically
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes progress-animation {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+</style>
+{% endblock %}

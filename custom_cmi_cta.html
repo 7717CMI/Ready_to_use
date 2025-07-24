@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}CMI CTA Generation{% endblock %}
+
+{% block content %}
+<div class="container-modern">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-dark">CMI CTA Generation</h2>
+                <p class="text-muted">Extract and generate CTA for specified number of keywords</p>
+            </div>
+
+            <!-- Main Configuration -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-cogs me-2"></i>
+                        CTA Generation Configuration
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <form method="POST" id="ctaProcessingForm" enctype="multipart/form-data">
+                        <div class="row g-3">
+                            <!-- Processing Settings -->
+                            <div class="col-12">
+                                <h6 class="text-primary mb-3">CTA Generation Settings</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="extract_count" class="form-label-modern">
+                                    Number of Keywords for CTA Generation <span class="text-danger">*</span>
+                                </label>
+                                <input type="number" class="form-control form-control-modern" id="extract_count" 
+                                       name="extract_count" value="200" min="1" max="10000" required>
+                                <div class="form-text small text-muted mt-1">
+                                    How many keywords to extract for CTA generation (max: 10,000)
+                                </div>
+                            </div>
+
+                            <!-- File Upload -->
+                            <div class="col-12 mt-4">
+                                <label for="file" class="form-label-modern">
+                                    Keywords File (Custom Weekly ROB) <span class="text-danger">*</span>
+                                </label>
+                                <input type="file" class="form-control form-control-modern" id="file" name="file" 
+                                       accept=".xlsx,.xls,.csv" required>
+                                <div class="form-text small text-muted mt-1">
+                                    Upload your Custom Weekly ROB file (.xlsx, .xls, .csv) - Max size: 16MB
+                                </div>
+                                <div id="fileValidation" class="mt-2"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Buttons -->
+                        <div class="d-flex flex-column flex-md-row gap-2 justify-content-center mt-4">
+                            <button type="submit" class="btn btn-success-modern btn-modern" id="submitBtn">
+                                <i class="fas fa-play me-2"></i>Process File & Generate CTA
+                            </button>
+                            <a href="/custom_choice" class="btn btn-secondary-modern btn-modern">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Choice
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Information Card -->
+            <div class="card-modern mt-4">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        CTA Generation Details
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h6 class="fw-semibold mb-2">What This Does</h6>
+                            <ul class="list-unstyled small text-muted">
+                                <li><span class="status-dot status-success"></span>Reads your Custom Weekly ROB file</li>
+                                <li><span class="status-dot status-success"></span>Extracts specified number of keywords</li>
+                                <li><span class="status-dot status-success"></span>Saves extracted data with date</li>
+                                <li><span class="status-dot status-success"></span>Triggers CMI automation process</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-semibold mb-2">Output Files</h6>
+                            <ul class="list-unstyled small text-muted">
+                                <li><span class="status-dot status-info"></span><strong>CTA Keywords</strong> - custom_reports_cmi_YYYY_MM_DD.xlsx</li>
+                                <li><span class="status-dot status-warning"></span><strong>Location</strong> - Desktop/RPA folder</li>
+                                <li><span class="status-dot status-success"></span>CMI automation triggered automatically</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-modern alert-success-modern mt-3">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        <strong>Example:</strong> Upload 1000 keywords → Extract 200 → Get custom_reports_cmi_2024_12_15.xlsx + CMI automation starts
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('file').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const validation = document.getElementById('fileValidation');
+    
+    if (file) {
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+        const allowedTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+                             'application/vnd.ms-excel', 'text/csv'];
+        
+        if (allowedTypes.includes(file.type) || file.name.endsWith('.xlsx') || file.name.endsWith('.xls') || file.name.endsWith('.csv')) {
+            if (file.size <= 16 * 1024 * 1024) {
+                validation.innerHTML = `<div class="alert-modern alert-success-modern">
+                    <i class="fas fa-check-circle me-2"></i>File selected: ${file.name} (${fileSize} MB)
+                </div>`;
+            } else {
+                validation.innerHTML = `<div class="alert-modern alert-danger-modern">
+                    <i class="fas fa-exclamation-triangle me-2"></i>File too large. Maximum size is 16MB.
+                </div>`;
+            }
+        } else {
+            validation.innerHTML = `<div class="alert-modern alert-warning-modern">
+                <i class="fas fa-exclamation-triangle me-2"></i>Invalid file type. Please select an Excel or CSV file.
+            </div>`;
+        }
+    }
+});
+
+document.getElementById('extract_count').addEventListener('input', function(e) {
+    const value = parseInt(e.target.value);
+    
+    if (value < 1 || value > 10000) {
+        e.target.setCustomValidity('Please enter a number between 1 and 10000');
+    } else {
+        e.target.setCustomValidity('');
+    }
+});
+
+document.getElementById('ctaProcessingForm').addEventListener('submit', function(e) {
+    const submitBtn = document.getElementById('submitBtn');
+    const extractCount = document.getElementById('extract_count').value;
+    
+    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin me-2"></i>Processing ${extractCount} keywords & starting CMI automation...`;
+    submitBtn.disabled = true;
+});
+</script>
+{% endblock %}

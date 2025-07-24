@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Home - OpenPR Publishing Platform{% endblock %}
+
+{% block content %}
+<div class="container-modern">
+    <!-- Hero Section -->
+    <div class="text-center py-5">
+        <h1 class="display-5 fw-bold text-dark mb-3">OpenPR Publishing Platform</h1>
+        <p class="lead text-muted mb-4">Streamline your market research data processing workflow</p>
+        
+        <!-- Show custom mode indicator if coming from custom report -->
+        {% if request.args.get('source') == 'custom' %}
+        <div class="alert-modern alert-success-modern mb-4">
+            <i class="fas fa-cogs me-2"></i>
+            <strong>Custom Report Mode:</strong> You're in custom analysis workflow
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Action Buttons with Descriptions -->
+    <div class="card-modern">
+        <div class="card-body-modern">
+            <div class="d-flex flex-column flex-md-row gap-4 justify-content-center">
+                <!-- Step 1 -->
+                <div class="text-center step-container">
+                    <div class="step-indicator text-purple fw-bold mb-2">STEP 1</div>
+                    <!-- Conditional Weekly RID button based on source -->
+                    {% if request.args.get('source') == 'custom' %}
+                    <a href="/custom_analysis" class="btn btn-info-modern btn-modern mb-3">
+                        <i class="fas fa-calendar-week me-2"></i>Weekly RID
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('weekly_report') }}" class="btn btn-info-modern btn-modern mb-3">
+                        <i class="fas fa-calendar-week me-2"></i>Weekly RID
+                    </a>
+                    {% endif %}
+                    <div class="step-description">
+                        {% if request.args.get('source') == 'custom' %}
+                        <p class="text-muted small mb-0">Custom RID analysis and keyword filtering</p>
+                        {% else %}
+                        <p class="text-muted small mb-0">Weekly RID analysis and keyword matching</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center step-container">
+                    <div class="step-indicator text-purple fw-bold mb-2">STEP 2</div>
+                    <a href="{{ url_for('rob') }}" class="btn btn-primary-modern btn-modern mb-3">
+                        <i class="fas fa-file-excel me-2"></i>ROB Daily
+                    </a>
+                    <div class="step-description">
+                        <p class="text-muted small mb-0">ROB file extraction and preparation</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center step-container">
+                    <div class="step-indicator text-purple fw-bold mb-2">STEP 3</div>
+                    <a href="{{ url_for('document_processing') }}" class="btn btn-success-modern btn-modern mb-3">
+                        <i class="fas fa-share-alt me-2"></i>OpenPR Publishing
+                    </a>
+                    <div class="step-description">
+                        <p class="text-muted small mb-0">Automated OpenPR content publishing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Process Information -->
+    <div class="card-modern mt-4">
+        <div class="card-header-modern">
+            <h6 class="mb-0">How It Works</h6>
+        </div>
+        <div class="card-body-modern">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <h6 class="text-primary mb-3">
+                        <span class="status-dot status-info"></span>
+                        {% if request.args.get('source') == 'custom' %}
+                        Custom Analysis
+                        {% else %}
+                        Weekly Analysis
+                        {% endif %}
+                    </h6>
+                    <ul class="list-unstyled small text-muted">
+                        {% if request.args.get('source') == 'custom' %}
+                        <li>• Upload ranking file only</li>
+                        <li>• Apply custom search filters</li>
+                        <li>• Generate qualified RID list</li>
+                        <li>• Export analysis results</li>
+                        {% else %}
+                        <li>• Upload ranking and ROB files</li>
+                        <li>• Apply search volume filters</li>
+                        <li>• Match qualified RIDs</li>
+                        <li>• Export processed data</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-success mb-3">
+                        <span class="status-dot status-success"></span>
+                        Daily Processing
+                    </h6>
+                    <ul class="list-unstyled small text-muted">
+                        <li>• Extract specified row count</li>
+                        <li>• Generate ROB.xlsx file</li>
+                        <li>• Create remaining data file</li>
+                        <li>• Trigger automation flow</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-warning mb-3">
+                        <span class="status-dot status-warning"></span>
+                        Auto Publishing
+                    </h6>
+                    <ul class="list-unstyled small text-muted">
+                        <li>• Convert documents to DOCX</li>
+                        <li>• Extract press release content</li>
+                        <li>• Auto-publish to OpenPR</li>
+                        <li>• Track publication status</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mode Switch Option -->
+    {% if request.args.get('source') == 'custom' %}
+    <div class="text-center mt-4">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary-modern btn-modern">
+            <i class="fas fa-exchange-alt me-2"></i>Switch to Standard Mode
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.step-container {
+    flex: 1;
+    max-width: 280px;
+}
+
+.step-description {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-description p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #6c757d !important;
+    font-weight: 400;
+}
+
+.step-indicator {
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.btn-modern {
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 12px 24px;
+}
+
+.btn-modern:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+</style>
+{% endblock %}

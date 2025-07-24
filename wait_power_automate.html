@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Waiting for Power Automate</h2>
+    <p id="wait-msg">Your documents are being generated. This may take a few minutes. Please wait...<br>
+    <span class="text-muted">You will be redirected automatically when ready.</span></p>
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <br><br>
+    <a href="{{ url_for('document_processing') }}" class="btn btn-primary mt-3" id="proceed-btn" style="display:none;">Proceed to Document Processing</a>
+</div>
+<script>
+    // Trigger backend Power Automate process on page load
+    let triggered = false;
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!triggered) {
+            triggered = true;
+            fetch("{{ url_for('trigger_power_automate_flow') }}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('wait-msg').innerHTML =
+                  '<span class="text-success">Power Automate process completed! Redirecting to document processing...</span>';
+                document.querySelector('.spinner-border').classList.remove('text-primary');
+                document.querySelector('.spinner-border').classList.add('text-success');
+                // Wait 2 seconds, then redirect
+                setTimeout(function() {
+                    window.location.href = "{{ url_for('document_processing') }}";
+                }, 2000);
+            })
+            .catch(err => {
+                document.getElementById('wait-msg').innerHTML =
+                  '<span class="text-danger">Error running Power Automate process. Please try again or contact support.</span>';
+            });
+        }
+    });
+</script>
+{% endblock %}

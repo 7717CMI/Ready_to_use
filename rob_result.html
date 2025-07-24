@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}Processing Complete{% endblock %}
+
+{% block content %}
+<div class="container-modern">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Success Header -->
+            <div class="text-center mb-4">
+                <div class="feature-icon mx-auto mb-3" style="width: 80px; height: 80px; background: #dcfce7; color: #166534; font-size: 2rem;">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h2 class="fw-bold text-dark">Processing Complete!</h2>
+                <p class="text-muted">Your ROB file has been successfully processed and split</p>
+            </div>
+
+            <!-- Processing Summary -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Processing Summary
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <div class="row g-4 text-center">
+                        <div class="col-md-4">
+                            <div class="feature-icon mx-auto mb-2" style="background: #dbeafe; color: #1e40af;">
+                                <i class="fas fa-file-upload"></i>
+                            </div>
+                            <h6 class="fw-semibold">Original File</h6>
+                            <p class="text-muted mb-0">{{ total_count or records_processed }} rows</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-icon mx-auto mb-2" style="background: #dcfce7; color: #166534;">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <h6 class="fw-semibold">Extracted</h6>
+                            <p class="text-muted mb-0">{{ extracted_count }} rows</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-icon mx-auto mb-2" style="background: #fef3c7; color: #92400e;">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                            <h6 class="fw-semibold">Remaining</h6>
+                            <p class="text-muted mb-0">{{ remaining_count }} rows</p>
+                        </div>
+                    </div>
+
+                    <div class="alert-modern alert-success-modern mt-4">
+                        <i class="fas fa-user me-2"></i>
+                        <strong>Processed by:</strong> {{ username }} | 
+                        <strong>Total records:</strong> {{ total_count or records_processed }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Action -->
+            <div class="card-modern">
+                <div class="card-body-modern">
+                    <div class="text-center">
+                        <a href="{{ url_for('download_extracted_rob') }}" class="btn btn-primary-modern btn-modern" id="downloadRobBtn">
+                            <i class="fas fa-download me-2"></i>
+                            Start AI Content Generation ({{ extracted_count }} rows)
+                        </a>
+                    </div>
+
+                    <!-- Power Automate Alert -->
+                    <div class="alert-modern alert-success-modern mt-3" id="powerAutomateAlert" style="display: none;">
+                        <i class="fas fa-robot me-2"></i>
+                        <strong>Power Automate Starting...</strong> 
+                        <span id="powerAutomateCountdown">5</span> seconds remaining
+                    </div>
+                </div>
+            </div>
+
+            <!-- Process Details -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        What Happened
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <span class="status-dot status-success"></span>
+                            Successfully read and processed your ROB file
+                        </li>
+                        <li class="mb-2">
+                            <span class="status-dot status-success"></span>
+                            Extracted top {{ extracted_count }} rows for immediate use
+                        </li>
+                        <li class="mb-2">
+                            <span class="status-dot status-success"></span>
+                            Created ROB.xlsx file for automation workflow
+                        </li>
+                        <li class="mb-2">
+                            <span class="status-dot status-success"></span>
+                            Generated remaining data file for future processing
+                        </li>
+                        <li class="mb-0">
+                            <span class="status-dot status-info"></span>
+                            Ready for Power Automate and publishing workflow
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Handle ROB download and Power Automate trigger
+document.getElementById('downloadRobBtn').addEventListener('click', function(e) {
+    // Show Power Automate countdown alert
+    const alert = document.getElementById('powerAutomateAlert');
+    const countdown = document.getElementById('powerAutomateCountdown');
+    
+    alert.style.display = 'block';
+    
+    // Start 5-second countdown
+    let seconds = 5;
+    const timer = setInterval(function() {
+        seconds--;
+        countdown.textContent = seconds;
+        
+        if (seconds <= 0) {
+            clearInterval(timer);
+            alert.innerHTML = '<i class="fas fa-robot me-2"></i><strong>Power Automate Started!</strong> Check your desktop for the automation flow.';
+        }
+    }, 1000);
+    
+    // Update button state
+    this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Downloaded! Starting automation...';
+    this.classList.add('disabled');
+    
+    // Re-enable button after 10 seconds
+    setTimeout(() => {
+        this.innerHTML = '<i class="fas fa-download me-2"></i>AI Content Generation ({{ extracted_count }} rows)';
+        this.classList.remove('disabled');
+    }, 10000);
+});
+</script>
+{% endblock %}

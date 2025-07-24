@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Custom ROB Choice{% endblock %}
+
+{% block content %}
+<div class="container-modern">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <h2 class="fw-bold text-dark">Custom ROB Data Processing</h2>
+        <p class="text-muted">Choose your processing website</p>
+    </div>
+
+    <!-- Choice Cards -->
+    <div class="card-modern">
+        <div class="card-header-modern">
+            <h6 class="mb-0">
+                <i class="fas fa-globe me-2"></i>
+                Website Selection
+            </h6>
+        </div>
+        <div class="card-body-modern">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="choice-card text-center">
+                        <div class="choice-icon mb-3">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="fw-semibold mb-3">CMI</h5>
+                        <p class="text-muted mb-4">Coherent Market Insights processing</p>
+                        <button class="btn btn-primary-modern btn-modern" onclick="handleCMIChoice()">
+                            <i class="fas fa-arrow-right me-2"></i>Select CMI
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="choice-card text-center">
+                        <div class="choice-icon mb-3">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h5 class="fw-semibold mb-3">WMR</h5>
+                        <p class="text-muted mb-4">World Market Reports processing</p>
+                        <button class="btn btn-success-modern btn-modern" onclick="handleWMRChoice()">
+                            <i class="fas fa-arrow-right me-2"></i>Select WMR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Information Card -->
+    <div class="card-modern mt-4">
+        <div class="card-header-modern">
+            <h6 class="mb-0">
+                <i class="fas fa-info-circle me-2"></i>
+                Processing Information
+            </h6>
+        </div>
+        <div class="card-body-modern">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h6 class="fw-semibold mb-2">CMI Processing</h6>
+                    <ul class="list-unstyled small text-muted">
+                        <li><span class="status-dot status-info"></span>Coherent Market Insights format</li>
+                        <li><span class="status-dot status-success"></span>Specialized data structure</li>
+                        <li><span class="status-dot status-warning"></span>CMI-specific processing rules</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-semibold mb-2">WMR Processing</h6>
+                    <ul class="list-unstyled small text-muted">
+                        <li><span class="status-dot status-info"></span>World Market Reports format</li>
+                        <li><span class="status-dot status-success"></span>WMR data handling</li>
+                        <li><span class="status-dot status-warning"></span>Custom WMR processing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-4">
+        <a href="/custom_index.html" class="btn btn-secondary-modern btn-modern">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back to Custom Home
+        </a>
+    </div>
+</div>
+
+<style>
+.choice-card {
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.choice-card:hover {
+    border-color: #3b82f6;
+    background: #f8faff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.choice-icon {
+    width: 60px;
+    height: 60px;
+    background: #dbeafe;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: #3b82f6;
+    font-size: 1.5rem;
+}
+
+.choice-card:hover .choice-icon {
+    background: #3b82f6;
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-success-modern {
+    background: #10b981;
+    color: white;
+}
+
+.btn-success-modern:hover {
+    background: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+</style>
+
+<script>
+function handleCMIChoice() {
+    console.log('CMI selected');
+    window.location.href = '/custom_cmi_cta';
+}
+
+function handleWMRChoice() {
+    console.log('WMR selected');
+    // Placeholder for WMR choice handling
+    window.location.href = '/custom_wmr_cta';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}AI Content Generation{% endblock %}
+
+{% block content %}
+<div class="container-modern">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-dark">AI Content Generation</h2>
+                <p class="text-muted">Generate articles using AI from your CTA excel file</p>
+            </div>
+
+            <!-- Main Configuration -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-robot me-2"></i>
+                        AI Article Generation Configuration
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <form method="POST" id="aiContentForm" enctype="multipart/form-data">
+                        <div class="row g-3">
+                            <!-- File Upload -->
+                            <div class="col-12">
+                                <label for="cta_file" class="form-label-modern">
+                                    CTA Excel File (custom_cmi_excel_with_cta) <span class="text-danger">*</span>
+                                </label>
+                                <input type="file" class="form-control form-control-modern" id="cta_file" name="cta_file" 
+                                       accept=".xlsx,.xls" required>
+                                <div class="form-text small text-muted mt-1">
+                                    Upload your CTA excel file with Title, PromoBuy, and SampleLink columns
+                                </div>
+                                <div id="fileValidation" class="mt-2"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Buttons -->
+                        <div class="d-flex flex-column flex-md-row gap-2 justify-content-center mt-4">
+                            <button type="submit" class="btn btn-ai-modern btn-modern" id="submitBtn">
+                                <i class="fas fa-magic me-2"></i>Generate AI Articles
+                            </button>
+                            <a href="/custom_content_generation_choice" class="btn btn-secondary-modern btn-modern">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Choice
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Information Card -->
+            <div class="card-modern mt-4">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        AI Generation Details
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h6 class="fw-semibold mb-2">What This Does</h6>
+                            <ul class="list-unstyled small text-muted">
+                                <li><span class="status-dot status-success"></span>Reads your CTA excel file</li>
+                                <li><span class="status-dot status-success"></span>Extracts titles and removes "Market"</li>
+                                <li><span class="status-dot status-success"></span>Generates AI articles with OpenAI</li>
+                                <li><span class="status-dot status-success"></span>Embeds PromoBuy and SampleLink naturally</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-semibold mb-2">Output Files</h6>
+                            <ul class="list-unstyled small text-muted">
+                                <li><span class="status-dot status-info"></span><strong>Article Files</strong> - cleanedtitle_cmi_YYYY_MM_DD.doc</li>
+                                <li><span class="status-dot status-warning"></span><strong>Location</strong> - Desktop/RPA folder</li>
+                                <li><span class="status-dot status-success"></span>One article per excel row</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-modern alert-success-modern mt-3">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        <strong>Example:</strong> "Portable Dishwasher Market" → Generate article about "Portable Dishwasher" → Save as "portable_dishwasher_cmi_2024_12_15.doc"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.btn-ai-modern {
+    background: #0891b2;
+    color: white;
+}
+
+.btn-ai-modern:hover {
+    background: #0e7490;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3);
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('cta_file').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const validation = document.getElementById('fileValidation');
+    
+    if (file) {
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+        const allowedTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+                             'application/vnd.ms-excel'];
+        
+        if (allowedTypes.includes(file.type) || file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
+            if (file.size <= 16 * 1024 * 1024) {
+                validation.innerHTML = `<div class="alert-modern alert-success-modern">
+                    <i class="fas fa-check-circle me-2"></i>File selected: ${file.name} (${fileSize} MB)
+                </div>`;
+            } else {
+                validation.innerHTML = `<div class="alert-modern alert-danger-modern">
+                    <i class="fas fa-exclamation-triangle me-2"></i>File too large. Maximum size is 16MB.
+                </div>`;
+            }
+        } else {
+            validation.innerHTML = `<div class="alert-modern alert-warning-modern">
+                <i class="fas fa-exclamation-triangle me-2"></i>Invalid file type. Please select an Excel file.
+            </div>`;
+        }
+    }
+});
+
+document.getElementById('aiContentForm').addEventListener('submit', function(e) {
+    const submitBtn = document.getElementById('submitBtn');
+    
+    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin me-2"></i>Generating AI articles...`;
+    submitBtn.disabled = true;
+});
+</script>
+{% endblock %}

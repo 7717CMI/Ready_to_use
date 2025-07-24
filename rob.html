@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}ROB Processing{% endblock %}
+
+{% block content %}
+<div class="container-modern">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-dark">ROB Data Processing</h2>
+                <p class="text-muted">Extract and prepare your ROB data for publishing</p>
+            </div>
+
+            <!-- Main Form -->
+            <div class="card-modern">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-file-excel me-2"></i>
+                        Processing Configuration
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <form method="POST" enctype="multipart/form-data" id="robForm">
+                        <div class="row g-3">
+                            <!-- User Information -->
+                            <div class="col-12">
+                                <h6 class="text-primary mb-3">User Information</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="username" class="form-label-modern">
+                                    Username <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control form-control-modern" id="username" name="username" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label-modern">
+                                    Email <span class="text-danger">*</span>
+                                </label>
+                                <input type="email" class="form-control form-control-modern" id="email" name="email" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="open_pr_id" class="form-label-modern">
+                                    Open PR ID <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control form-control-modern" id="open_pr_id" name="open_pr_id" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="mobile" class="form-label-modern">
+                                    Mobile <span class="text-danger">*</span>
+                                </label>
+                                <input type="tel" class="form-control form-control-modern" id="mobile" name="mobile" required>
+                            </div>
+
+                            <!-- Processing Configuration -->
+                            <div class="col-12 mt-4">
+                                <h6 class="text-primary mb-3">Processing Settings</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="extract_count" class="form-label-modern">
+                                    Number of PRs to Extract <span class="text-danger">*</span>
+                                </label>
+                                <input type="number" class="form-control form-control-modern" id="extract_count" 
+                                       name="extract_count" value="200" min="1" max="10000" required>
+                                <div class="form-text small text-muted mt-1">
+                                    How many rows to extract for today's publishing (max: 10,000)
+                                </div>
+                            </div>
+
+                            <!-- File Upload -->
+                            <div class="col-12 mt-4">
+                                <label for="file" class="form-label-modern">
+                                    Weekly RID File <span class="text-danger">*</span>
+                                </label>
+                                <input type="file" class="form-control form-control-modern" id="file" name="file" 
+                                       accept=".xlsx,.xls,.csv" required>
+                                <div class="form-text small text-muted mt-1">
+                                    Upload your Weekly RID file (.xlsx, .xls, .csv) - Max size: 16MB
+                                </div>
+                                <div id="fileValidation" class="mt-2"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Buttons -->
+                        <div class="d-flex flex-column flex-md-row gap-2 justify-content-center mt-4">
+                            <button type="submit" class="btn btn-success-modern btn-modern" id="submitBtn">
+                                <i class="fas fa-play me-2"></i>Process File
+                            </button>
+                            <a href="{{ url_for('index') }}" class="btn btn-secondary-modern btn-modern">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Home
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Information Card -->
+            <div class="card-modern mt-4">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Processing Details
+                    </h6>
+                </div>
+                <div class="card-body-modern">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h6 class="fw-semibold mb-2">What This Does</h6>
+                            <ul class="list-unstyled small text-muted">
+                                <li><span class="status-dot status-success"></span>Reads your cleaned ROB file</li>
+                                <li><span class="status-dot status-success"></span>Extracts specified number of rows</li>
+                                <li><span class="status-dot status-success"></span>Creates ROB.xlsx for automation</li>
+                                <li><span class="status-dot status-success"></span>Generates remaining data file</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-semibold mb-2">Output Files</h6>
+                            <ul class="list-unstyled small text-muted">
+                                <li><span class="status-dot status-info"></span><strong>ROB.xlsx</strong> - Extracted rows for automation</li>
+                                <li><span class="status-dot status-warning"></span><strong>Remaining file</strong> - Available for download</li>
+                                <li><span class="status-dot status-success"></span>Both files ready for next steps</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-modern alert-success-modern mt-3">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        <strong>Example:</strong> Upload 1000 rows → Extract 200 → Get ROB.xlsx (200 rows) + remaining file (800 rows)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('file').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const validation = document.getElementById('fileValidation');
+    
+    if (file) {
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+        const allowedTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+                             'application/vnd.ms-excel', 'text/csv'];
+        
+        if (allowedTypes.includes(file.type) || file.name.endsWith('.xlsx') || file.name.endsWith('.xls') || file.name.endsWith('.csv')) {
+            if (file.size <= 16 * 1024 * 1024) {
+                validation.innerHTML = `<div class="alert-modern alert-success-modern">
+                    <i class="fas fa-check-circle me-2"></i>File selected: ${file.name} (${fileSize} MB)
+                </div>`;
+            } else {
+                validation.innerHTML = `<div class="alert-modern alert-danger-modern">
+                    <i class="fas fa-exclamation-triangle me-2"></i>File too large. Maximum size is 16MB.
+                </div>`;
+            }
+        } else {
+            validation.innerHTML = `<div class="alert-modern alert-warning-modern">
+                <i class="fas fa-exclamation-triangle me-2"></i>Invalid file type. Please select an Excel or CSV file.
+            </div>`;
+        }
+    }
+});
+
+document.getElementById('extract_count').addEventListener('input', function(e) {
+    const value = parseInt(e.target.value);
+    
+    if (value < 1 || value > 10000) {
+        e.target.setCustomValidity('Please enter a number between 1 and 10000');
+    } else {
+        e.target.setCustomValidity('');
+    }
+});
+
+document.getElementById('robForm').addEventListener('submit', function(e) {
+    const submitBtn = document.getElementById('submitBtn');
+    const extractCount = document.getElementById('extract_count').value;
+    
+    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin me-2"></i>Processing ${extractCount} rows...`;
+    submitBtn.disabled = true;
+});
+</script>
+{% endblock %}
