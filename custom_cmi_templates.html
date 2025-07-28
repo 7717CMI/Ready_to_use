@@ -1,0 +1,603 @@
+{% extends "base.html" %}
+
+{% block title %}CMI Template Selection{% endblock %}
+
+{% block content %}
+<div class="container-modern">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <div class="platform-brand cmi-brand mb-3">
+            <i class="fas fa-brain"></i>
+        </div>
+        <h2 class="fw-bold text-success">CMI Template Selection</h2>
+        <p class="text-muted">Coherent Market Insights - Choose your category, template and upload data</p>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert-container mb-4">
+                {% for message in messages %}
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- File Upload Section -->
+    <div class="card-modern mb-4">
+        <div class="card-header-modern">
+            <h6 class="mb-0">
+                <i class="fas fa-upload me-2"></i>
+                Upload Excel File for CMI Template Content
+            </h6>
+        </div>
+        <div class="card-body-modern">
+            <form id="cmiTemplateForm" method="POST" enctype="multipart/form-data">
+                <div class="upload-zone">
+                    <input type="file" class="form-control-modern" id="template_file" name="template_file" accept=".xlsx,.xls" required>
+                    <div class="upload-info">
+                        <i class="fas fa-file-excel text-success me-2"></i>
+                        Upload Excel file with Market Name, Market Size, CAGR, Key Players, Forecast Period columns
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CMI Categories and Templates -->
+    <div class="row g-4 mb-4">
+        <!-- HC Category -->
+        <div class="col-lg-4">
+            <div class="category-card hc-category">
+                <div class="category-header">
+                    <div class="category-icon hc-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h5 class="category-title">HC (Healthcare)</h5>
+                    <span class="category-subtitle">Medical & Pharmaceutical</span>
+                </div>
+                
+                <div class="templates-container">
+                    <div class="template-item hc-template" data-category="hc" data-template="hc1">
+                        <div class="template-content">
+                            <div class="template-icon-small">
+                                <i class="fas fa-pills"></i>
+                            </div>
+                            <div class="template-info">
+                                <h6 class="template-name">HC Template 1</h6>
+                                <small class="template-desc">Medical Device Report</small>
+                            </div>
+                        </div>
+                        <div class="selection-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+
+                    <div class="template-item hc-template" data-category="hc" data-template="hc2">
+                        <div class="template-content">
+                            <div class="template-icon-small">
+                                <i class="fas fa-microscope"></i>
+                            </div>
+                            <div class="template-info">
+                                <h6 class="template-name">HC Template 2</h6>
+                                <small class="template-desc">Pharmaceutical Analysis</small>
+                            </div>
+                        </div>
+                        <div class="selection-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+
+                    <div class="template-item hc-template" data-category="hc" data-template="hc3">
+                        <div class="template-content">
+                            <div class="template-icon-small">
+                                <i class="fas fa-dna"></i>
+                            </div>
+                            <div class="template-info">
+                                <h6 class="template-name">HC Template 3</h6>
+                                <small class="template-desc">Biotech Market Report</small>
+                            </div>
+                        </div>
+                        <div class="selection-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ICT Category -->
+        <div class="col-lg-4">
+            <div class="category-card ict-category">
+                <div class="category-header">
+                    <div class="category-icon ict-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h5 class="category-title">ICT (Technology)</h5>
+                    <span class="category-subtitle">Information & Communication</span>
+                </div>
+                
+                <div class="templates-container">
+                    <div class="template-item ict-template" data-category="ict" data-template="ict1">
+                        <div class="template-content">
+                            <div class="template-icon-small">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <div class="template-info">
+                                <h6 class="template-name">ICT Template 1</h6>
+                                <small class="template-desc">Software Market Report</small>
+                            </div>
+                        </div>
+                        <div class="selection-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+
+                    <div class="template-item ict-template" data-category="ict" data-template="ict2">
+                        <div class="template-content">
+                            <div class="template-icon-small">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="template-info">
+                                <h6 class="template-name">ICT Template 2</h6>
+                                <small class="template-desc">Hardware Analysis</small>
+                            </div>
+                        </div>
+                        <div class="selection-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+
+                    <div class="template-item ict-template" data-category="ict" data-template="ict3">
+                        <div class="template-content">
+                            <div class="template-icon-small">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <div class="template-info">
+                                <h6 class="template-name">ICT Template 3</h6>
+                                <small class="template-desc">Digital Services Report</small>
+                            </div>
+                        </div>
+                        <div class="selection-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CMFE Category -->
+        <div class="col-lg-4">
+            <div class="category-card cmfe-category">
+                <div class="category-header">
+                    <div class="category-icon cmfe-icon">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <h5 class="category-title">CMFE</h5>
+                    <span class="category-subtitle">Materials & Energy</span>
+                </div>
+                
+                <div class="templates-container">
+                    <div class="template-item cmfe-template" data-category="cmfe" data-template="cmfe1">
+                        <div class="template-content">
+                            <div class="template-icon-small">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <div class="template-info">
+                                <h6 class="template-name">CMFE Template 1</h6>
+                                <small class="template-desc">Chemical Market Report</small>
+                            </div>
+                        </div>
+                        <div class="selection-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+
+                    <div class="template-item cmfe-template" data-category="cmfe" data-template="cmfe2">
+                        <div class="template-content">
+                            <div class="template-icon-small">
+                                <i class="fas fa-hammer"></i>
+                            </div>
+                            <div class="template-info">
+                                <h6 class="template-name">CMFE Template 2</h6>
+                                <small class="template-desc">Materials Analysis</small>
+                            </div>
+                        </div>
+                        <div class="selection-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+
+                    <div class="template-item cmfe-template" data-category="cmfe" data-template="cmfe3">
+                        <div class="template-content">
+                            <div class="template-icon-small">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="template-info">
+                                <h6 class="template-name">CMFE Template 3</h6>
+                                <small class="template-desc">Energy Market Report</small>
+                            </div>
+                        </div>
+                        <div class="selection-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Selection Status -->
+    <div class="card-modern mb-4">
+        <div class="card-header-modern">
+            <h6 class="mb-0">
+                <i class="fas fa-info-circle me-2"></i>
+                Selection Status
+            </h6>
+        </div>
+        <div class="card-body-modern">
+            <div class="status-content">
+                <span class="status-dot status-warning"></span>
+                <span id="selectionInfo">Please select a CMI template to continue</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="text-center mb-4">
+        <button type="button" class="btn btn-success-modern btn-modern me-3" id="generateBtn" disabled onclick="generateCMIContent()">
+            <i class="fas fa-magic me-2"></i>
+            Generate CMI Content
+        </button>
+        
+        <a href="/custom_template_content" class="btn btn-secondary-modern btn-modern">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back to Platform Choice
+        </a>
+    </div>
+</div>
+
+<style>
+.platform-brand.cmi-brand {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3);
+}
+
+.upload-zone {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.upload-zone:hover {
+    border-color: #10b981;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+}
+
+.upload-info {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.category-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    height: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s;
+}
+
+.category-card:hover::before {
+    left: 100%;
+}
+
+.hc-category {
+    border-left: 4px solid #dc2626;
+}
+
+.hc-category:hover {
+    background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+    border-color: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.15);
+}
+
+.ict-category {
+    border-left: 4px solid #7c3aed;
+}
+
+.ict-category:hover {
+    background: linear-gradient(135deg, #faf5ff 0%, #e9d5ff 100%);
+    border-color: #7c3aed;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.15);
+}
+
+.cmfe-category {
+    border-left: 4px solid #d97706;
+}
+
+.cmfe-category:hover {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-color: #d97706;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(217, 119, 6, 0.15);
+}
+
+.category-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.category-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.75rem;
+    font-size: 1.3rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.hc-icon {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
+}
+
+.ict-icon {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.2);
+}
+
+.cmfe-icon {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    box-shadow: 0 4px 15px rgba(217, 119, 6, 0.2);
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.category-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+}
+
+.category-subtitle {
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.hc-category:hover .category-title {
+    color: #dc2626;
+}
+
+.ict-category:hover .category-title {
+    color: #7c3aed;
+}
+
+.cmfe-category:hover .category-title {
+    color: #d97706;
+}
+
+.templates-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.template-item {
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.template-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+.template-item:hover::before {
+    left: 100%;
+}
+
+.hc-template:hover {
+    background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+    border-color: #dc2626;
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
+}
+
+.ict-template:hover {
+    background: linear-gradient(135deg, #faf5ff 0%, #e9d5ff 100%);
+    border-color: #7c3aed;
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.2);
+}
+
+.cmfe-template:hover {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-color: #d97706;
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(217, 119, 6, 0.2);
+}
+
+.template-item.selected {
+    transform: translateX(5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.hc-template.selected {
+    background: linear-gradient(135deg, #fecaca 0%, #f87171 100%);
+    border-color: #dc2626;
+}
+
+.ict-template.selected {
+    background: linear-gradient(135deg, #e9d5ff 0%, #c4b5fd 100%);
+    border-color: #7c3aed;
+}
+
+.cmfe-template.selected {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-color: #d97706;
+}
+
+.template-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.template-icon-small {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.hc-template .template-icon-small {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+.ict-template .template-icon-small {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+}
+
+.cmfe-template .template-icon-small {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+}
+
+.template-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.template-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+}
+
+.template-desc {
+    color: #64748b;
+    font-size: 0.8rem;
+    line-height: 1.3;
+}
+
+.hc-template:hover .template-name {
+    color: #dc2626;
+}
+
+.ict-template:hover .template-name {
+    color: #7c3aed;
+}
+
+.cmfe-template:hover .template-name {
+    color: #d97706;
+}
+
+.selection-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #10b981;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+    transition: all 0.4s ease;
+}
+
+.template-item.selected .selection-check {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+.status-content {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.status-content .status-dot.status-success {
+    background: #10b981;
+}
+
+.btn-success-modern {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+}
+
+.btn-success-modern:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    color: white;
+}
+
+#generateBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3); }
+    50% { box-shadow: 0 8px 30px rgba(16, 185, 129, 0.6); }
+    100% { box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3); }
+}
+</style>
+{% endblock %}
